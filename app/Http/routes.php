@@ -26,4 +26,10 @@ Route::group(array("prefix"=>"api/v1.1"),function()
     });
 
 
+    Route::post("oauth/refresh_token",function()
+    {
+        return response()->json(\Authorizer::issueAccessToken());
+    });
+
+    Route::post("post/create",['middleware' => 'oauth', 'as' => 'post', 'uses' => 'PostControlller@store']);
 });
