@@ -21,6 +21,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 
+
 $factory->define(App\OauthClient::class, function (Faker\Generator $faker) {
     return [
             'id' => rand(10,100),
