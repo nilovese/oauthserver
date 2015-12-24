@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Request;
 use App\User;
+use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
 
 class AuthController extends Controller
 {
@@ -22,6 +26,8 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    protected $redirectPath = "/dashboard";
 
     /**
      * Create a new authentication controller instance.
@@ -61,5 +67,17 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+
+    public function getLogin()
+    {
+        return view('auth.login');
+    }
+
+
+    public function getRegister()
+    {
+        return view('auth.register',["params"=>Input::all()]);
     }
 }
