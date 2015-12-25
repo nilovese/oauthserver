@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\Request;
 use App\User;
 use Illuminate\Support\Facades\Input;
@@ -79,5 +80,24 @@ class AuthController extends Controller
     public function getRegister()
     {
         return view('auth.register',["params"=>Input::all()]);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postRegister(RegisterRequest $request)
+    {
+        \Auth::login($this->create($request->all()));
+        if($request->params != "")
+        {
+            $url_params = json_decode($request->params,TRUE);
+            return redirect(route("oauth.authorize.get",$url_params));
+            //dd($url_params);
+        }
+
+        return redirect($this->redirectPath());
     }
 }
