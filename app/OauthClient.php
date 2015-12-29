@@ -12,6 +12,6 @@ class OauthClient extends Model
 
     public function Profiles()
     {
-        return $this->belongsToMany("App\Profile");
+        return $this->belongsToMany("App\Profile","profile_client","profile_id","client_id");
     }
 }

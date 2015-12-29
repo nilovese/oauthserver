@@ -11,7 +11,6 @@ namespace App\core;
 
 use App\Profile;
 use App\User;
-use Illuminate\Http\Request;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 class ProfileManager
@@ -20,20 +19,31 @@ class ProfileManager
 
     protected $user;
 
-    public function __construct(Request $request)
-    {
-        $this->request = $request->all();
-    }
-
     public function GetUserFromOuthCredential()
     {
-
         $this->user = User::find(\Authorizer::getResourceOwnerId());
     }
 
-    public function SaveProfile()
+    public function SaveProfile($request)
     {
-        return $this->user->profiles()->save(Profile::create($this->request));
+        $this->request = $request->all();
+        $profile = $this->user->profiles()->save(Profile::create($this->request));
+        if(isset($this->request["client_id"]))
+        {
+            $profile->clients()->attach($this->request["client_id"]);
+        }
+        return $profile;
+
+    }
+
+    public function EditProfile($request)
+    {
+        $this->request = $request->all();
+        unset($this->request["access_token"]);
+        unset($this->request["client_id"]);
+        $profile = Profile::find($this->request["id"]);
+        $profile->update($this->request);
+        return $profile;
     }
 
     public function Profiles()

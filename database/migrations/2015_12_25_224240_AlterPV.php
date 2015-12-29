@@ -14,8 +14,8 @@ class AlterPV extends Migration
     {
         Schema::table('profile_client', function ($table)
         {
-             $table->renameColumn('user_id', 'profile_id');
-             //$table->primary(array('user_id', 'client_id'));
+             //$table->renameColumn('user_id', 'profile_id');
+             $table->primary(array('profile_id', 'client_id'));
         });
     }
 

@@ -74,7 +74,8 @@ Route::group(array("prefix"=>"api/v1.1"),function()
 
 Route::group(['prefix' => 'api/v1.1/profile', 'middleware' => 'oauth'], function()
 {
-    Route::get("save",'ApiController@SaveProfile');
+    Route::post("save",'ApiController@SaveProfile');
+    Route::post("edit",'ApiController@EditProfile');
     Route::get('all','ApiController@Profiles');
 });
 

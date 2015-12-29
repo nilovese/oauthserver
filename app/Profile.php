@@ -10,7 +10,7 @@ class Profile extends Model
 
     public function Clients()
     {
-        return $this->belongsToMany("App\OauthClient","client_id");
+        return $this->belongsToMany("App\OauthClient","profile_client","profile_id","client_id");
     }
 
     public function User()

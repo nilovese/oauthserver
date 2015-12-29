@@ -18,14 +18,23 @@ class ApiController extends Controller
         $this->profileManager->GetUserFromOuthCredential();
      }
 
-     public function SaveProfile()
+     public function SaveProfile(Request $request)
      {
-        return $this->profileManager->SaveProfile();
+        return $this->profileManager->SaveProfile($request);
      }
+
+    public function EditProfile(Request $request)
+    {
+        return $this->profileManager->EditProfile($request);
+    }
 
     public function Profiles()
     {
         return $this->profileManager->Profiles();
     }
+
+    
+
+
 
 }

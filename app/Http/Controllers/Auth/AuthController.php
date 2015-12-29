@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -99,5 +100,22 @@ class AuthController extends Controller
         }
 
         return redirect($this->redirectPath());
+    }
+
+
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogout()
+    {
+        $data= Input::all();
+        Auth::logout();
+        if(isset($data["redirect_uri"]))
+        {
+            return redirect($data["redirect_uri"]);
+        }
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 }
