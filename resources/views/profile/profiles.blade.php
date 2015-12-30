@@ -10,6 +10,7 @@
                     <th>Country</th>
                     <th>City</th>
                     <th>DOB</th>
+                    <th>Platform</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -22,6 +23,10 @@
                     <td>{{ $profile->country }}</td>
                     <td>{{ $profile->city }}</td>
                     <td>{{ $profile->dob }}</td>
+                    <td>
+                        {{ $profile->clients()->lists("id") }}
+                        
+                    </td>
                     <td></td>
                 </tr>
             @endforeach

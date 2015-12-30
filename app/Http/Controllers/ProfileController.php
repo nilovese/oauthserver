@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\core\ProfileManager;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
+use App\OauthClient;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -15,6 +16,10 @@ class ProfileController extends Controller
     public function __construct(ProfileManager $profileManager)
     {
         $this->profileManager = $profileManager;
+        if(Auth::check())
+        {
+            $this->profileManager->SetUser(Auth::user());
+        }
     }
 
     public function SaveProfile(Request $request)
@@ -37,10 +42,7 @@ class ProfileController extends Controller
 
     public function Profiles()
     {
-        return $profiles = $this->profileManager
-                                ->Profiles(Auth::user());
-
-
+        return view("profile.profiles",["profiles"=>$this->profileManager->Profiles(),"clients"=>OauthClient::all()]);
     }
 
 

@@ -19,6 +19,11 @@ class ProfileManager
 
     protected $user;
 
+    public function SetUser($user)
+    {
+        $this->user = $user;
+    }
+
     public function GetUserFromOuthCredential()
     {
         $this->user = User::find(\Authorizer::getResourceOwnerId());

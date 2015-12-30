@@ -41,8 +41,6 @@ Route::group(array("prefix"=>"api/v1.1"),function()
         return View::make('oauth.authorization-form', ['params' => $formParams, 'client' => $authParams['client']]);
 
     }]);
-
-
     Route::post('oauth/authorize', ['as' => 'oauth.authorize.post', 'middleware' => ['csrf', 'check-authorization-params', 'auth'], function() {
 
         $params = Authorizer::getAuthCodeRequestParams();
@@ -54,16 +52,12 @@ Route::group(array("prefix"=>"api/v1.1"),function()
         return Redirect::to($redirectUri);
 
     }]);
-
-
-
     Route::post("oauth/refresh_token",function()
     {
         return response()->json(\Authorizer::issueAccessToken());
     });
 
     Route::post("post/create",['middleware' => 'oauth', 'as' => 'post', 'uses' => 'PostControlller@store']);
-
     Route::get("user/info",['middleware' => 'oauth', 'as' => 'user.info', 'uses' => 'UserController@GetUserByToken']);
 
 });
@@ -79,6 +73,12 @@ Route::group(['prefix' => 'api/v1.1/profile', 'middleware' => 'oauth'], function
     Route::get('all','ApiController@Profiles');
 });
 
+
+
+Route::group(['prefix' => 'core', 'middleware' => 'auth'], function()
+{
+    Route::get('profiles',["as"=>"coreprofiles" ,"uses"=>"ProfileController@Profiles"]);
+});
 
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
